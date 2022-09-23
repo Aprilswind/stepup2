@@ -1,0 +1,55 @@
+{
+  "kind": "collectionType",
+  "collectionName": "academic_details",
+  "info": {
+    "singularName": "academic-detail",
+    "pluralName": "academic-details",
+    "displayName": "academicDetails",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "rollNumber": {
+      "type": "string"
+    },
+    "batch": {
+      "type": "string"
+    },
+    "department": {
+      "type": "string"
+    },
+    "dob": {
+      "type": "string"
+    },
+    "cgpa": {
+      "type": "string"
+    },
+    "collegeEssay": {
+      "type": "text"
+    },
+    "native": {
+      "type": "string"
+    },
+    "marks_10th": {
+      "type": "string"
+    },
+    "marks_12th": {
+      "type": "string"
+    },
+    "marksheet_10th": {
+      "type": "string"
+    },
+    "marksheet_12th": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "interest": {
+      "type": "string"
+    }
+  }
+}

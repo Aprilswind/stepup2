@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "laptop_statuses",
+  "info": {
+    "singularName": "laptop-status",
+    "pluralName": "laptop-statuses",
+    "displayName": "Laptop Status",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "status": {
+      "type": "string"
+    },
+    "users": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "laptopStatus"
+    },
+    "laptopDetails": {
+      "type": "json"
+    }
+  }
+}

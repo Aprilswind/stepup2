@@ -1,0 +1,19 @@
+{
+  "kind": "singleType",
+  "collectionName": "total_amounts",
+  "info": {
+    "singularName": "total-amount",
+    "pluralName": "total-amounts",
+    "displayName": "Total Amount",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "totalAmount": {
+      "type": "integer"
+    }
+  }
+}
