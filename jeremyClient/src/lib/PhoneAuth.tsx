@@ -62,11 +62,11 @@ const PhoneAuth = ( { done, updateData }: { done: any, updateData: any } ) => {
 	}
 
 	return (
-		<div className='bg-blue-700 w-[60%] rounded flex justify-center items-center h-full m-4 p-4'>
-			<p className='m-4 p-4 ml-0 pl-0 text-white text-2xl font-extra-bold w-1/2'>
+		<div className='bg-blue-700 w-[calc(100%-2rem)] rounded flex flex-col justify-center items-center h-[500px] m-4 p-4'>
+			<p className='m-4 p-4 text-center ml-0 pl-0 text-white text-xl font-extra-bold'>
 				Enter your phone number. We will send you an OTP to verify your phone number.
 			</p>
-			<div className='bg-white flex flex-col justify-evenly items-center h-full p-4 rounded w-[calc(300px+2rem)]' style={ { display: !show ? "flex" : "none" } }>
+			<div className='bg-white flex flex-col justify-evenly items-center h-full p-4 rounded w-full' style={ { display: !show ? "flex" : "none" } }>
 				<TextField fullWidth onChange={ ( e ) => setNumber( e.target.value ) } placeholder='Enter phone number' label='Phone' />
 				<div className='' id="recaptcha-container"></div>
 				<Button fullWidth className='' onClick={ signin }>Send OTP</Button>

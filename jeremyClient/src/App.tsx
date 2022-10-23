@@ -1,7 +1,6 @@
 import "./App.css"
 import { Landing } from "./screens/Landing"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import { Login } from "./lib/Login"
 import React from "react"
 import { UserObjectProvider } from "./context/user"
 
