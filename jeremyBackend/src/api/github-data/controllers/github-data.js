@@ -50,7 +50,7 @@ module.exports = {
     try {
       // console.log(getGithubContributions.getGithubContributions)
       let temp = await getGithubContributions( {
-        username: 'joel-samuel-raj',
+        username: 'Aprilswind',
         token: process.env.TOKEN
       } )
       ctx.body = temp.data

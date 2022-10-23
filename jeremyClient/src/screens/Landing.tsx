@@ -19,32 +19,6 @@ export const Landing = () => {
 	
 	return (
 		<div className='bg-white'>
-			<div className='relative h-[calc(100vh-2rem)]'>
-				<Container className='h-full'>
-					<div className='flex h-[calc(100%-15rem)] justify-center items-center m-4 mb-0 p-4 pt-8 border-b-0 rounded rounded-b-none relative z-10'>
-						<div className='w-1/2 relative h-full flex items-center'>
-							<div className='w-1/2 h-full z-10 bg-white rounded mr-2 mt-0 mb-20'></div>
-							<div className='w-1/2 h-full z-10 border-white border-2 rounded ml-2 mt-20'></div>
-							<p className='stroke-white text-right top-1/2 p-4 -translate-y-1/2 absolute text-7xl font-extra-bold bg-gradient-to-r z-20 from-sky-700 via-sky-400 to-sky-100 text-transparent bg-clip-text'>
-								Lorem ipsum dolor sit amet.
-							</p>
-						</div>
-						<div className='w-1/2 h-full p-4 flex flex-col justify-center items-center'>
-							<img className='object-contain shadow shadow-black ml-12 h-[calc(100%-5rem)]' src="landing.jpg" alt="" />
-							<div className=' m-4 p-4 h-[4rem] w-full'>
-								<p className='text-4xl text-gray-100 text-right'>
-									Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.
-								</p>
-							</div>
-						</div>
-					</div>
-					<div className='w-full relative z-10 flex justify-center items-center h-[15rem] bg-transparent'>
-						<Button className='w-1/5 mr-8 text-blue-700 bg-white border-2 border-blue-700 py-2 text-xl rounded-xl'> Learn More </Button>
-						<Button className='ml-8 w-1/5 text-white rounded-xl py-2 text-xl bg-gradient-to-r from-sky-500 via-blue-500 to-sky-900' onClick={() => setModal(true)}> Apply </Button>
-					</div>
-				</Container>
-				<div className='absolute -top-4 bottom-0 left-0 right-0 bg-blue-700 -z-1' style={{clipPath: 'ellipse(120% 100% at 92% 0%)'}}></div>
-			</div>
 			<Container className='my-0'> 
 				<p className='text-center text-4xl uppercase bg-white m-4 mt-12'>
 					Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
