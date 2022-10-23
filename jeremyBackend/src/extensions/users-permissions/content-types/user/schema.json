@@ -131,6 +131,9 @@
     },
     "statusUpdate": {
       "type": "json"
+    },
+    "githubUsername": {
+      "type": "string"
     }
   }
 }
