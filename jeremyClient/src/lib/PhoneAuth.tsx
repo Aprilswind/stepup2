@@ -62,8 +62,8 @@ const PhoneAuth = ( { done, updateData }: { done: any, updateData: any } ) => {
 	}
 
 	return (
-		<div className='bg-blue-700 w-[calc(100%-2rem)] rounded flex flex-col justify-center items-center h-[500px] m-4 p-4'>
-			<p className='m-4 p-4 text-center ml-0 pl-0 text-white text-xl font-extra-bold'>
+		<div className='bg-blue-700 w-[calc(100%-2rem)] lg:w-[calc(50%-2rem)] rounded flex flex-col justify-center items-center h-[500px] m-4 p-4'>
+			<p className='m-4 p-4 w-full md:w-2/3 text-center ml-0 pl-0 text-white text-xl font-extra-bold'>
 				Enter your phone number. We will send you an OTP to verify your phone number.
 			</p>
 			<div className='bg-white flex flex-col justify-evenly items-center h-full p-4 rounded w-full' style={ { display: !show ? "flex" : "none" } }>
