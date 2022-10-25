@@ -121,7 +121,7 @@ const Lvl1 = ({handleForm, handleChange, userObject, setUserObject, steplvl}: {h
 			const user = result.user
 			axios.get(`https://api.github.com/user/${user.providerData[0].uid}`).then((res) => {
 				console.log(res)
-				setUserObject((user: any) => ({...user, githubUserName: res.data.login}))
+				setUserObject((user: any) => ({...user, githubUsername: res.data.login}))
 			}).catch(err => toast.error(err.message))
 			}).catch(err => toast.error(err.message))
 	}	
