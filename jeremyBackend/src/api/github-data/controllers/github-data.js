@@ -37,7 +37,7 @@ const getUsers = async () => {
     }, [] )
     const weeklyContributions = weeklyContributionsTemp.splice( weeklyContributionsTemp.length - 7, 7 )
     const weeklyContributionsSum = weeklyContributions.reduce((total, week) => total += week, 0)
-    const dailyContributions = calendar.weeks[ calendar.weeks.length - 1 ].contributionDays.pop()?.contributionCount
+    const dailyContributions = calendar.weeks[ calendar.weeks.length - 1 ].contributionDays.pop().contributionCount
     return { username: id,  totalContributions, weeklyContributions, weeklyContributionsSum, dailyContributions }
   } ).catch( e => {
     console.log(e)
