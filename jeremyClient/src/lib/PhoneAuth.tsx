@@ -69,7 +69,7 @@ const PhoneAuth = ( { done, updateData }: { done: any, updateData: any } ) => {
 			<div className='bg-white flex flex-col justify-evenly items-center h-full p-4 rounded w-full' style={ { display: !show ? "flex" : "none" } }>
 				<TextField fullWidth onChange={ ( e ) => setNumber( e.target.value ) } placeholder='Enter phone number' label='Phone' />
 				<div className='' id="recaptcha-container"></div>
-				<Button fullWidth className='' onClick={ signin }>Send OTP</Button>
+				<Button fullWidth className='mt-4' onClick={ signin }>Send OTP</Button>
 			</div>
 			<div className='bg-white flex flex-col justify-evenly items-center h-full p-4 rounded w-[calc(300px+2rem)]' style={ { display: show ? "flex" : "none" } }>
 				<OtpInput
