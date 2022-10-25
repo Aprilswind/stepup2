@@ -42,7 +42,7 @@ const PhoneAuth = ( { done, updateData }: { done: any, updateData: any } ) => {
 		}
 		final.confirm( otp ).then( ( result: any ) => {
 			toast.success( 'User verified successfully' )
-			axios.get( 'http://localhost:1337/api/users?filters[$and][0][phno][$eq]=' + mynumber.slice(3) ).then( ( resp ) => {
+			axios.get( 'https://stepup-laptopapp.herokuapp.com/api/users?filters[$and][0][phno][$eq]=' + mynumber.slice(3) ).then( ( resp ) => {
 				if ( resp.data.length ) {
 					console.log(resp.data[0])
 					updateData( {

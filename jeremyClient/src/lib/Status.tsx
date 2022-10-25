@@ -27,7 +27,7 @@ export default function Status () {
     const foundStatus = componentMap.find( key => key.status === userObject.LaptopStatus )! 
 
     const handleSubmit = () => {
-        axios.put(`http://localhost:1337/api/users/${userObject.id}`, {
+        axios.put(`https://stepup-laptopapp.herokuapp.com/api/users/${userObject.id}`, {
             LaptopReceivedByStudent: true
         }).then(() => setUserObject((prev) => ({ ...prev, LaptopReceivedByStudent: true })))
     }

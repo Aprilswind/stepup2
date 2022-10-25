@@ -16,9 +16,12 @@ export default function Update () {
       if(!userObject.statusUpdate.length) {
         userObject.statusUpdate = []
       }
-      axios.put( `http://localhost:1337/api/users/${ userObject.id }`, {
+      axios.put( `https://stepup-laptopapp.herokuapp.com/api/users/${ userObject.id }`, {
         lastUpdate: Date.now().toString(),  
-        statusUpdate: [...userObject.statusUpdate, para]
+        statusUpdate: [...userObject.statusUpdate, {
+          date: yyyymmdd(new Date()),
+          content: para
+        }]
       } ).then( () => {
         setUserObject((prev) => ({...prev, lastUpdate: Date.now()}))
       })
@@ -34,6 +37,16 @@ export default function Update () {
       }
     }
   }, [ para ] )
+  const yyyymmdd = (date: Date) => {
+  var mm = date.getMonth() + 1; // getMonth() is zero-based
+  var dd = date.getDate();
+
+  return [date.getFullYear(),
+          (mm>9 ? '' : '0') + mm,
+          (dd>9 ? '' : '0') + dd
+         ].join('');
+};
+
   return (
     <div className='w-full'>
       <GradientHead text={ 'Update your skill progress' } />

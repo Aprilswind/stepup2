@@ -7,7 +7,7 @@ import PhoneAuth from "./PhoneAuth";
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios'
-import { toast } from "react-toastify"
+import { toast, ToastContainer } from "react-toastify"
 import Divider from "../styled components/Divider"
 import Container from "../styled components/Container"
 import GradientHead from "../styled components/GradientHead"
@@ -19,6 +19,7 @@ import { userType } from "../types/user"
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage"
 import { storage } from "../sdks/firebase"
 import { parse } from "path"
+import { getAuth, GithubAuthProvider, signInWithPopup } from "firebase/auth";
 
 const lvl1Schema = Yup.object().shape({
 	name: Yup.string()
@@ -65,8 +66,8 @@ const lvl2Schema = Yup.object().shape( {
 
 const lvl3Schema = Yup.object().shape( {
 	collegeEssay: Yup.string()
-		.min( 400, 'College Essay too short!' )
 		.max( 2000, 'College Essay too long!' )
+		.min( 400, 'College Essay too short!' )
 } )
 
 const destructure = ( object1: any, object2: any ): { [key: string]: string } => {
@@ -110,16 +111,38 @@ const Upload = ( { text }: { text: string } ) => {
 	)
 } 
 
-const Lvl1 = ({handleForm, handleChange, userObject, steplvl}: {handleForm: any, handleChange: any, userObject: any, steplvl: any}) => (
-	<Wrapper>
+const Lvl1 = ({handleForm, handleChange, userObject, setUserObject, steplvl}: {handleForm: any, handleChange: any, userObject: any, steplvl: any, setUserObject: any}) => {
+	const handleGithub = () => {
+		const provider = new GithubAuthProvider
+		provider.addScope('user')
+		const auth = getAuth()
+		signInWithPopup(auth, provider)
+			.then((result) => {
+			const user = result.user
+			axios.get(`https://api.github.com/user/${user.providerData[0].uid}`).then((res) => {
+				console.log(res)
+				setUserObject((user: any) => ({...user, githubUserName: res.data.login}))
+			}).catch(err => toast.error(err.message))
+			}).catch(err => toast.error(err.message))
+	}	
+	return <Wrapper>
 		<p className='m-0 mb-8 text-4xl font-extrabold text-slate-700'> { steps[steplvl].title } </p>
+		<div className="h-[5rem] w-full md:w-1/2 lg:w-1/3 flex my-12 flex justify-evenly items-center">
+			<img src={"github.png"} className="h-full object-contain mr-4"/>
+			<p className={userObject.githubUserName ? "text-green-500 text-lg" : "italic text-blue-500 underline text-lg"} onClick={handleGithub}> {
+				userObject.githubUserName ? "Connected ✅" : "Connect your GitHub account"
+			} </p>
+		</div>
 		<Formik 
 			initialValues={destructure(userObject, lvl1InitialForm)}
 			validationSchema={lvl1Schema}
-			onSubmit={values => handleForm(values)}
+			onSubmit={values => {
+				console.log(values)
+				return userObject.githubUserName ? handleForm(values) : (values.name && values.address && values.RollNo && values.Native && values.email && values.dob) && toast.error("Please connect your GitHub account", {position: "bottom-right"}) 
+			}}
 		>
 			{({ errors, touched }) => (
-					<Form onChange={handleChange} className='grid gap-4 grid-cols-2 grid-rows-5 items-center justify-center'>
+					<Form onChange={handleChange} className='flex flex-col lg:grid lg:gap-4 lg:grid-cols-2 lg:grid-rows-5 lg:items-center lg:justify-center'>
 						<div>
 							<Field className='lvl1Field' value={userObject.name} name="name" placeholder='Name' />
 							{errors.name && touched.name ? (
@@ -158,8 +181,9 @@ const Lvl1 = ({handleForm, handleChange, userObject, steplvl}: {handleForm: any,
 				</Form>
 			)}
 		</Formik>	
+		<ToastContainer />
 	</Wrapper>
-)
+}
 
 const Lvl2 = ({handleForm, handleChange, userObject, steplvl, setSteplvl}: {handleForm: any, handleChange: any, userObject: any, steplvl: any, setSteplvl: any}) => (
 	<Wrapper>
@@ -171,38 +195,38 @@ const Lvl2 = ({handleForm, handleChange, userObject, steplvl, setSteplvl}: {hand
 		>
 			{({ errors, touched }) => (
 				<Form onChange={handleChange}>
-					<div className='grid gap-4 grid-cols-2 grid-rows-3 items-center justify-center'>
-						<div>
-							<Field className='lvl1Field' value={userObject.department} name="department" placeholder='Department' />
+					<div className='flex flex-col lg:grid lg:gap-4 lg:grid-cols-2 lg:grid-rows-3 items-center justify-center'>
+						<div className="w-full">
+							<Field className='lvl1Field w-full' value={userObject.department} name="department" placeholder='Department' />
 							{errors.department && touched.department ? (
 								<div className="err">{errors.department as string}</div>
 							) : null} 
 						</div>
-						<div>
+						<div className="w-full">
 							<Field className='w-full h-full lvl1Field' value={userObject.batch} name="batch" placeholder='Batch' />
 								{errors.batch && touched.batch ? (
 									<div className="err">{errors.batch as string}</div>
 								) : null} 
 						</div>
-						<div>
-							<Field className='lvl1Field' value={userObject.cgpa} name="cgpa" placeholder='CGPA' />
+						<div className="w-full">
+							<Field className='lvl1Field w-full' value={userObject.cgpa} name="cgpa" placeholder='CGPA' />
 							{errors.cgpa && touched.cgpa ? (
 								<div className="err">{errors.cgpa as string}</div>
 							) : null}
 						</div>
-						<div>
-							<Field className='lvl1Field' value={userObject.interest} name="interest" placeholder='Interests' />
+						<div className="w-full">
+							<Field className='lvl1Field w-full' value={userObject.interest} name="interest" placeholder='Interests' />
 							{errors.interest && touched.interest ? (
 								<div className="err">{errors.interest as string}</div>
 							) : null}
 						</div>
-						<div>
-							<Field onChange={handleChange} className='lvl1Field' value={userObject.Marks_10th} name="Marks_10th" placeholder='10th cgpa' />
+						<div className="w-full">
+							<Field onChange={handleChange} className='lvl1Field w-full' value={userObject.Marks_10th} name="Marks_10th" placeholder='10th cgpa' />
 							{ errors.Marks_10th && touched.Marks_10th ?
 								<div className="err">{ errors.Marks_10th as string }</div> : null }
 						</div> 
-						<div className='col-start-2'>
-							<Field className='lvl1Field' value={userObject.Marks_12th} name="Marks_12th" type="12th cgpa" placeholder='12th cgpa' />
+						<div className='col-start-2 w-full'>
+							<Field className='lvl1Field w-full' value={userObject.Marks_12th} name="Marks_12th" type="12th cgpa" placeholder='12th cgpa' />
 								{ errors.Marks_12th && touched.Marks_12th ?
 									<div className="err">{ errors.Marks_12th as string }</div> : null }
 						</div>
@@ -212,9 +236,9 @@ const Lvl2 = ({handleForm, handleChange, userObject, steplvl, setSteplvl}: {hand
 									<div className="err">{ errors.description as string }</div> : null }
 						</div>	
 					</div>
-					<div className='flex justify-between items-center my-4 py-4 w-full h-full'>
+					<div className='flex flex-col lg:flex-row justify-between items-center my-4 py-4 w-full h-full'>
 						{ uploadsTitles.map( text => {
-							return ( <div className='w-[30%] h-full'>
+							return ( <div className='w-full md:w-1/2 lg:w-[30%] h-full'>
 								<Upload text={text}/>
 							</div>)
 						})}
@@ -319,7 +343,7 @@ export const Login = ( { phno }: { phno: string } ) => {
 						} as {[key: string]: any}
 						console.log(jeremyUser)
 						console.log(userObject)
-						axios.post( 'http://localhost:1337/api/auth/local/register/', jeremyUser ).then( resp => {
+						axios.post( 'https://stepup-laptopapp.herokuapp.com/api/auth/local/register/', jeremyUser ).then( resp => {
 							toast.success( 'Your requested has been submitted sucessfully' )
 							console.log( resp )
 						} ).catch( err => {
@@ -340,7 +364,7 @@ export const Login = ( { phno }: { phno: string } ) => {
 		switch ( i ) {
 			case 0:
 				default:
-					return <Lvl1 handleForm={handleForm} handleChange={handleChange} userObject={userObject} steplvl={steplvl} />;
+					return <Lvl1 setUserObject={setUserObject} handleForm={handleForm} handleChange={handleChange} userObject={userObject} steplvl={steplvl} />;
 			case 1:
 				return <Lvl2 handleForm={handleForm} handleChange={handleChange} userObject={userObject} steplvl={steplvl} setSteplvl={setSteplvl} />;
 			case 2:
@@ -349,7 +373,7 @@ export const Login = ( { phno }: { phno: string } ) => {
 	}
 
 	return (
-		<div style={ { backgroundColor: "white" } }>
+		<div style={ { backgroundColor: "white" } } className="w-full h-full bg-black">
 			<GradientHead className='text-6xl py-4 mb-4' text={"Few more steps ..."}/>
 			<div className='font-Roboto'>
 				<Stepper
