@@ -119,7 +119,7 @@ export const Landing = () => {
 												{
 													userObject.LaptopReceivedByStudent
 														? ( <Update /> )
-														: userObject.LaptopStatus ? 
+														: userObject.LaptopStatus || 1? 
 															( <Status /> )
 															:  <Login phno={ userObject.phNo } />
 												}

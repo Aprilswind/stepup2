@@ -51,7 +51,7 @@ export default function Update () {
     <div className='w-full'>
       <GradientHead text={ 'Update your skill progress' } />
       <Divider />
-      {Date.now() - parseInt(userObject.lastUpdate) > 86400000  ? (<div>
+      {Date.now() - parseInt(userObject.lastUpdate) > 86400000 || !userObject.lastUpdate  ? (<div>
         <p className='my-4'> Update your scholastic progress, you have done for the past one week. </p>
         <textarea onChange={ ( e ) => setPara( e.target.value ) } value={ para } className='lvl1Field w-full h-[300px]'>
         </textarea>
