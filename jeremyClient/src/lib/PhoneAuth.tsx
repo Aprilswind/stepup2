@@ -73,7 +73,7 @@ const PhoneAuth = ( { done, updateData }: { done: any, updateData: any } ) => {
 				<Button fullWidth className='' onClick={ signin }>Send OTP</Button>
 			</div>
 			<div className='bg-white flex flex-col justify-evenly items-center h-[300px] p-4 rounded w-[calc(300px+2rem)]' style={ { display: show ? "flex" : "none" } }>
-				<TextField onChange={(e) => setotp(e.target.value)} className="w-1/2 m-4"/>
+				<TextField onChange={(e) => setotp(e.target.value)} className="w-1/2 m-4" label="Enter OTP" placeholder="OTP ..."/>
 				<Button fullWidth variant='text' onClick={ ValidateOtp }>Verify</Button>
 			</div>
 			<ToastContainer />
