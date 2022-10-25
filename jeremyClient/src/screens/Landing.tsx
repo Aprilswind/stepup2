@@ -48,11 +48,9 @@ export const Landing = () => {
 							</div>
 						</div>
 				</div>
-					<div className='flex'>
-						<p className='mt-20 text-center text-lg lg:w-1/2 font-italic'>
+						<p className='mt-12 text-center text-lg lg:w-1/2 font-italic'>
 							Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam consequuntur accusantium quod, autem voluptatum quaerat facere dolorem optio ipsam a?
 						</p>
-					</div>
 					<Divider />
 					<div className='flex flex-col justify-evenly lg:flex-row items-center my-12 w-full'>
 						{ [ {
@@ -98,7 +96,7 @@ export const Landing = () => {
 						transition={{duration: 3}}
 						className='w-screen h-screen flex justify-center items-end'>
 							<AnimatePresence>
-								{ next ? (
+								{ !next ? (
 									<motion.div key={"0"} className='w-full h-[calc(100vh-5rem)]'>
 										<Box className='bg-white pt-16 w-full h-full rounded relative'>
 											<i className='fa fa-close bg-red-500 cursor-pointer rounded-lg p-2 px-3 text-white absolute top-4 right-4' onClick={ () => setModal( false ) }></i>
@@ -119,7 +117,7 @@ export const Landing = () => {
 												{
 													userObject.LaptopReceivedByStudent
 														? ( <Update /> )
-														: userObject.LaptopStatus || 1? 
+														: userObject.LaptopStatus? 
 															( <Status /> )
 															:  <Login phno={ userObject.phNo } />
 												}
