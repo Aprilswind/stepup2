@@ -18,13 +18,13 @@ specifiers:
   firebase: ^9.9.4
   formik: ^2.2.9
   framer-motion: ^7.2.1
+  otp-input-react: ^0.3.0
   postcss: ^8.4.16
   react: ^18.2.0
   react-date-picker: ^8.4.0
   react-dom: ^18.2.0
   react-markdown: ^8.0.3
   react-otp-input: ^2.4.0
-  react-phone-number-input: ^3.2.8
   react-router-dom: ^6.3.0
   react-scripts: 5.0.1
   react-stepper-horizontal: ^1.0.11
@@ -51,12 +51,12 @@ dependencies:
   firebase: 9.12.1
   formik: 2.2.9_react@18.2.0
   framer-motion: 7.5.3_biqbaboplfbrettd7655fr4n2y
+  otp-input-react: 0.3.0
   react: 18.2.0
   react-date-picker: 8.4.0_biqbaboplfbrettd7655fr4n2y
   react-dom: 18.2.0_react@18.2.0
   react-markdown: 8.0.3_iapumuv4e6jcjznwuxpf4tt22e
   react-otp-input: 2.4.0_biqbaboplfbrettd7655fr4n2y
-  react-phone-number-input: 3.2.11_biqbaboplfbrettd7655fr4n2y
   react-router-dom: 6.4.2_biqbaboplfbrettd7655fr4n2y
   react-scripts: 5.0.1_mojkb66nrb35nkdmirjres5uq4
   react-stepper-horizontal: 1.0.11
@@ -4830,10 +4830,6 @@ packages:
       yaml: 1.10.2
     dev: false
 
-  /country-flag-icons/1.5.5:
-    resolution: {integrity: sha512-k4WXZ/WvWOSiYXRG1n8EYHNr1m/IX0GffKqAidaet5DrJsDOmJ8Q/8JvvONhZNnKYg24s4lvsm+9og1HcuIU/g==}
-    dev: false
-
   /create-react-class/15.7.0:
     resolution: {integrity: sha512-QZv4sFWG9S5RUvkTYWbflxeZX+JG7Cz0Tn33rQBJ+WFQTqTfUTjMjiv9tnfXazjsO5r0KhPs+AqCjyrQX6h2ng==}
     dependencies:
@@ -6807,12 +6803,6 @@ packages:
     resolution: {integrity: sha512-7NXolsK4CAS5+xvdj5OMMbI962hU/wvwoxk+LWR9Ek9bVtyuuYScDN6eS0rUm6TxApFpw7CX1o4uJzcd4AyD3Q==}
     dev: false
 
-  /input-format/0.3.8:
-    resolution: {integrity: sha512-tLR0XRig1xIcG1PtIpMd/uoltvkAI62CN9OIbtj4/tEJAkqTCQLNHUZ9N4M46w0dopny7Rlt/lRH5Xzp7e6F+g==}
-    dependencies:
-      prop-types: 15.8.1
-    dev: false
-
   /internal-slot/1.0.3:
     resolution: {integrity: sha512-O0DB1JC/sPyZl7cIo78n5dR7eUSwwpYPiXRhTzNxZVAMUuB8vlnRFyLxdrVToks6XPLVnFfbzaVd5WLjhgg+vA==}
     engines: {node: '>= 0.4'}
@@ -7847,10 +7837,6 @@ packages:
       type-check: 0.4.0
     dev: false
 
-  /libphonenumber-js/1.10.14:
-    resolution: {integrity: sha512-McGS7GV/WjJ2KjfOGhJU1oJn29RYeo7Q+RpANRbUNMQ9gj5XArpbjurSuyYPTejFwbaUojstQ4XyWCrAzGOUXw==}
-    dev: false
-
   /lie/3.3.0:
     resolution: {integrity: sha512-UaiMJzeWRlEujzAuw5LokY1L5ecNQYZKfmyZ9L7wDHb/p5etKaxXhohBcrw0EYby+G/NA52vRSN4N39dxHAIwQ==}
     dependencies:
@@ -8599,6 +8585,10 @@ packages:
       prelude-ls: 1.2.1
       type-check: 0.4.0
       word-wrap: 1.2.3
+    dev: false
+
+  /otp-input-react/0.3.0:
+    resolution: {integrity: sha512-6HDgAUp+biz18cfeX8189g6sOqA5UGmTeqkREz1MI8x92N8kU/M8YtwLtl60j3pbGkMVbrm3f4n4wtXPeVpMmg==}
     dev: false
 
   /p-limit/2.3.0:
@@ -10430,21 +10420,6 @@ packages:
       react: ^16.2.0
       react-dom: ^16.2.0
     dependencies:
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    dev: false
-
-  /react-phone-number-input/3.2.11_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-fcY6KHCqG9qDzlUhuCj0QdP1/THW6lUu9UwuOEfFQU/eRhPasv52DzBINRRrhVPJ/N2qsbSShKBt3WX0Igu3Lw==}
-    peerDependencies:
-      react: '>=16.8'
-      react-dom: '>=16.8'
-    dependencies:
-      classnames: 2.3.2
-      country-flag-icons: 1.5.5
-      input-format: 0.3.8
-      libphonenumber-js: 1.10.14
-      prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false

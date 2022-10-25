@@ -39,7 +39,7 @@ export default function Status () {
             <div className='flex justify-center items-center h-full'>
                 <p className='uppercase text-gray-600 my-4'> { foundStatus.subHeading } </p>
             </div>
-            { userObject.LaptopStatus === 'Accepted' || 1 && (
+            { userObject.LaptopStatus === 'Accepted' && (
                 <div className='w-full my-4'>
                     <p className='my-4'>
                         Congratulations on getting your laptop. You can now start learning.

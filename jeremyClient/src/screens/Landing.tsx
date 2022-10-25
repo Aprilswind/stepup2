@@ -101,7 +101,7 @@ export const Landing = () => {
 										<Box className='bg-white pt-16 w-full h-full rounded relative'>
 											<i className='fa fa-close bg-red-500 cursor-pointer rounded-lg p-2 px-3 text-white absolute top-4 right-4' onClick={ () => setModal( false ) }></i>
 											<Container maxWidth={"lg"} className='w-full my-0 h-[calc(100%-4rem)] overflow-y-auto lg:overflow-visible'>
-													<GradientHead text={ 'Authenticate using phone number.' } className='py-0 text-3xl w-full text-left' />
+													<GradientHead text={ 'Authenticate using phone number.' } className='py-0 w-full text-left' />
 													<div className='flex flex-col lg:flex-row justify-between lg:mt-12 w-full items-center h-[calc(100%-4rem)]'>
 														<PhoneAuth done={ () => setNext( true ) }  updateData={ setUserObject } />
 														<img src="auth.svg" className='h-full w-full lg:w-1/2 origin-center object-contain' alt="" />
