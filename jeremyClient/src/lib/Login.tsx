@@ -251,8 +251,58 @@ const Lvl2 = ({handleForm, handleChange, userObject, steplvl, setSteplvl}: {hand
 	</Wrapper>
 )
 
-const Lvl3 = ({ userObject, steplvl, setSteplvl, handleSubmit, handleChange}: {handleForm: any, handleChange: any, userObject: any, steplvl: any, setSteplvl: any, handleSubmit: any}) => (
-	<Wrapper>
+const Lvl3 = ({ steplvl, setSteplvl, handleChange}: {handleForm: any, handleChange: any, userObject: any, steplvl: any, setSteplvl: any}) => {
+	const [loading, setLoading] = useState(false)
+	const {userObject, setUserObject} = useContext(UserObjectContext)
+	const handleSubmit = () => {
+		setLoading(true)
+		const fileKeys = Object.keys(userObject).filter( key => uploadsTitles.includes(key) )
+
+		const files = fileKeys.map( key => userObject[key] )
+		
+		fileKeys.forEach( (key: string, i: number) => {
+			const storageRef = ref( storage, `_${ userObject.phNo }/${ key }` )
+			const uploadTask = uploadBytesResumable( storageRef, files[i] )
+			uploadTask.on( 'state_changed', () => {
+			},
+			() => toast.error( `Error Occured !, please check network connections or try again` ),
+			async () => {
+				getDownloadURL( storageRef ).then( ( url ) => {
+					userObject[key] = url
+					if ( i === fileKeys.length - 1 ) {
+						let jeremyUser = {
+							...userObject,
+							Report_10th: userObject["10th_Marksheet"],
+							Report_12th: userObject["12th_Marksheet"],
+							imgsrc: userObject[ "Passport_size_image" ],
+							RollNo: parseInt( userObject.RollNo ),
+							batch: parseInt( userObject.batch ),
+							phno: parseInt(userObject.phNo.slice(3)),
+							username: userObject.phNo,
+							password: Math.random().toString(),
+							CollegeEssay: userObject.collegeEssay
+						} as {[key: string]: any}
+						console.log(jeremyUser)
+						console.log(userObject)
+						axios.post( 'https://stepup-laptopapp.herokuapp.com/api/auth/local/register/', jeremyUser ).then( resp => {
+							toast.success( 'Your requested has been submitted sucessfully' )
+							console.log( resp )
+							setLoading(false)
+							setUserObject({...userObject, done: true})
+						} ).catch( err => {
+							toast.error( err.message )
+							console.log( err, err.message, JSON.stringify( err, null, 20 ) )
+							setUserObject({...userObject, done: true})
+							setLoading(false)
+						})
+					}
+				} )
+			} )
+		})
+	}
+
+
+	return <Wrapper>
 		<p className='m-0 mb-8 text-4xl font-extrabold text-slate-700'> { steps[steplvl].title } </p>
 		<Formik
 			initialValues={destructure(userObject, lvl3InitialForm)}
@@ -267,7 +317,7 @@ const Lvl3 = ({ userObject, steplvl, setSteplvl, handleSubmit, handleChange}: {h
 						<div className="err">{ errors.collegeEssay }</div>
 					) : null }
 				</div>
-				<button type='submit' className='myBtn ml-[10rem] mt-8'> Submit request </button>
+				<button type={loading ? "button" : "submit"} className={`myBtn ml-[10rem] mt-8 ${loading && "cursor-disabled"}`}> {loading ? "Please Wait" : "Submit Application"} </button>
 			</Form>
 		) }
 		</Formik>	
@@ -275,7 +325,7 @@ const Lvl3 = ({ userObject, steplvl, setSteplvl, handleSubmit, handleChange}: {h
 			Back
 		</button>
 	</Wrapper>
-)
+}
 
 const Wrapper = ( { className = '', children }: { className?: string, children: React.ReactNode } ) => {
 	return <Container className={ `my-4 relative ${ className }` }>
@@ -313,50 +363,7 @@ export const Login = ( { phno }: { phno: string } ) => {
 		setSteplvl(p => p + 1)
 	}
 
-	const handleSubmit = () => {
-
-		const fileKeys = Object.keys(userObject).filter( key => uploadsTitles.includes(key) )
-
-		const files = fileKeys.map( key => userObject[key] )
-		
-		fileKeys.forEach( (key: string, i: number) => {
-			const storageRef = ref( storage, `_${ userObject.phNo }/${ key }` )
-			const uploadTask = uploadBytesResumable( storageRef, files[i] )
-			uploadTask.on( 'state_changed', () => {
-			},
-			() => toast.error( `Error Occured !, please check network connections or try again` ),
-			async () => {
-				getDownloadURL( storageRef ).then( ( url ) => {
-					userObject[key] = url
-					if ( i === fileKeys.length - 1 ) {
-						let jeremyUser = {
-							...userObject,
-							Report_10th: userObject["10th_Marksheet"],
-							Report_12th: userObject["12th_Marksheet"],
-							imgsrc: userObject[ "Passport_size_image" ],
-							RollNo: parseInt( userObject.RollNo ),
-							batch: parseInt( userObject.batch ),
-							phno: parseInt(userObject.phNo.slice(3)),
-							username: phno,
-							password: Math.random().toString(),
-							CollegeEssay: userObject.collegeEssay
-						} as {[key: string]: any}
-						console.log(jeremyUser)
-						console.log(userObject)
-						axios.post( 'https://stepup-laptopapp.herokuapp.com/api/auth/local/register/', jeremyUser ).then( resp => {
-							toast.success( 'Your requested has been submitted sucessfully' )
-							console.log( resp )
-						} ).catch( err => {
-							toast.error( err.message )
-							console.log( err, err.message, JSON.stringify( err, null, 20 ) )
-						})
-					}
-				} )
-			} )
-		})
-	}
-
-	useEffect( () => {
+		useEffect( () => {
 		console.log(userObject)
 	}, [userObject])
 
@@ -368,7 +375,7 @@ export const Login = ( { phno }: { phno: string } ) => {
 			case 1:
 				return <Lvl2 handleForm={handleForm} handleChange={handleChange} userObject={userObject} steplvl={steplvl} setSteplvl={setSteplvl} />;
 			case 2:
-				return <Lvl3 handleForm={handleForm} handleChange={handleChange} userObject={userObject} steplvl={steplvl} setSteplvl={setSteplvl} handleSubmit={handleSubmit} />;
+				return <Lvl3 handleForm={handleForm} handleChange={handleChange} userObject={userObject} steplvl={steplvl} setSteplvl={setSteplvl} />;
 		}
 	}
 

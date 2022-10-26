@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Landing.css";
 import Container from "../styled components/Container"
 import Divider from "../styled components/Divider"
@@ -17,6 +17,12 @@ export const Landing = () => {
 	const [modal, setModal] = useState(false)
 	const [next, setNext] = useState(false)
 	
+	useEffect(() => {
+		if(userObject?.done) {
+			setModal(false)
+		}
+	}, [userObject])
+
 	return (
 		<div className='bg-blue-100 w-full h-full flex flex-col lg:block items-center'>
 			<Container maxWidth={"lg"} className='my-0 h-auto w-full'> 
