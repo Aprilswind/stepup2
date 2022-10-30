@@ -14,7 +14,7 @@ import GradientHead from "../styled components/GradientHead"
 import { motion, AnimatePresence } from "framer-motion"
 import { UserObjectContext } from "../context/user"
 import { lvl1InitialForm, lvl2InitialForm, lvl3InitialForm } from "../constants/formInit"
-import { Button } from "@mui/material"
+import { Button, CircularProgress } from "@mui/material"
 import { userType } from "../types/user"
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage"
 import { storage } from "../sdks/firebase"
@@ -50,9 +50,6 @@ const lvl2Schema = Yup.object().shape( {
 	cgpa: Yup.string()
 		.min(1, 'CGPA too short!')
 		.max(5, 'CGPA too long!'),
-	interest: Yup.string()
-	  .min(2, 'Interest too short!')
-	  .max(50, 'Interest too long!'),
 	description: Yup.string()
 	  .min(1, 'Description too short!')
 	  .max(50, 'Description too long!'),
@@ -104,7 +101,7 @@ const Upload = ( { text }: { text: string } ) => {
 				<p className='text-center m-4'> { `Upload ${ text }` } </p>
 				<Button fullWidth className='relative cursor-pointer'>
 					{ userObject && userObject[ text1 ] ? 'change' : 'upload' }
-					<input accept='application/pdf' onChange={handleChange} className='absolute top-0 bottom-0 right-0 left-0 opacity-0 cursor-pointer' type="file" />
+					<input accept='image/jpeg,image/gif,image/png,application/pdf' onChange={handleChange} className='absolute top-0 bottom-0 right-0 left-0 opacity-0 cursor-pointer' type="file" />
 				</Button>
 			</div>
 		</div>
@@ -124,13 +121,16 @@ const Lvl1 = ({handleForm, handleChange, userObject, setUserObject, steplvl}: {h
 				setUserObject((user: any) => ({...user, githubUsername: res.data.login}))
 			}).catch(err => toast.error(err.message))
 			}).catch(err => toast.error(err.message))
-	}	
+	}
+	useEffect(() => {
+		console.log(userObject)
+	}, [userObject])
 	return <Wrapper>
 		<p className='m-0 mb-8 text-4xl font-extrabold text-slate-700'> { steps[steplvl].title } </p>
 		<div className="h-[5rem] w-full md:w-1/2 lg:w-1/3 flex my-12 flex justify-evenly items-center">
 			<img src={"github.png"} className="h-full object-contain mr-4"/>
-			<p className={userObject.githubUserName ? "text-green-500 text-lg" : "italic text-blue-500 underline text-lg"} onClick={handleGithub}> {
-				userObject.githubUserName ? "Connected ✅" : "Connect your GitHub account"
+			<p className={userObject.githubUsername ? "text-green-500 text-lg" : "cursor-pointer italic text-blue-500 underline text-lg"} onClick={handleGithub}> {
+				userObject.githubUsername ? "Connected ✅" : "Connect your GitHub account"
 			} </p>
 		</div>
 		<Formik 
@@ -138,7 +138,7 @@ const Lvl1 = ({handleForm, handleChange, userObject, setUserObject, steplvl}: {h
 			validationSchema={lvl1Schema}
 			onSubmit={values => {
 				console.log(values)
-				return userObject.githubUserName ? handleForm(values) : (values.name && values.address && values.RollNo && values.Native && values.email && values.dob) && toast.error("Please connect your GitHub account", {position: "bottom-right"}) 
+				return userObject.githubUsername ? handleForm(values) : (values.name && values.address && values.RollNo && values.Native && values.email && values.dob) && toast.error("Please connect your GitHub account", {position: "bottom-right"}) 
 			}}
 		>
 			{({ errors, touched }) => (
@@ -191,7 +191,7 @@ const Lvl2 = ({handleForm, handleChange, userObject, steplvl, setSteplvl}: {hand
 		<Formik
 			initialValues={destructure(userObject, lvl1InitialForm)}
 			validationSchema={lvl2Schema}
-			onSubmit={values => handleForm(values)}
+			onSubmit={values => userObject["Passport_size_image"] && handleForm(values)}
 		>
 			{({ errors, touched }) => (
 				<Form onChange={handleChange}>
@@ -230,11 +230,6 @@ const Lvl2 = ({handleForm, handleChange, userObject, steplvl, setSteplvl}: {hand
 								{ errors.Marks_12th && touched.Marks_12th ?
 									<div className="err">{ errors.Marks_12th as string }</div> : null }
 						</div>
-						<div className='row-start-3 row-end-5 w-full h-full'>
-							<Field as='textarea' value={userObject.description} className='lvl1Field w-full h-full' name="description" type="description" placeholder='Tell us about yourself' />
-								{ errors.Marks_12th && touched.Marks_12th ?
-									<div className="err">{ errors.description as string }</div> : null }
-						</div>	
 					</div>
 					<div className='flex flex-col lg:flex-row justify-between items-center my-4 py-4 w-full h-full'>
 						{ uploadsTitles.map( text => {
@@ -259,7 +254,8 @@ const Lvl3 = ({ steplvl, setSteplvl, handleChange}: {handleForm: any, handleChan
 		const fileKeys = Object.keys(userObject).filter( key => uploadsTitles.includes(key) )
 
 		const files = fileKeys.map( key => userObject[key] )
-		
+		console.log(files[0].webkitRelativePath)
+		console.log(fileKeys, files)	
 		fileKeys.forEach( (key: string, i: number) => {
 			const storageRef = ref( storage, `_${ userObject.phNo }/${ key }` )
 			const uploadTask = uploadBytesResumable( storageRef, files[i] )
@@ -278,7 +274,7 @@ const Lvl3 = ({ steplvl, setSteplvl, handleChange}: {handleForm: any, handleChan
 							RollNo: parseInt( userObject.RollNo ),
 							batch: parseInt( userObject.batch ),
 							phno: parseInt(userObject.phNo.slice(3)),
-							username: userObject.phNo,
+							username: userObject.name,
 							password: Math.random().toString(),
 							CollegeEssay: userObject.collegeEssay
 						} as {[key: string]: any}
@@ -316,8 +312,10 @@ const Lvl3 = ({ steplvl, setSteplvl, handleChange}: {handleForm: any, handleChan
 					{ errors.collegeEssay && touched.collegeEssay ? (
 						<div className="err">{ errors.collegeEssay }</div>
 					) : null }
+					{ loading ? (<div className="ml-[10rem] mt-10"> <CircularProgress/> </div>) : 
+						(<button type="submit" className={`myBtn ml-[10rem] mt-8`}> Submit Application </button>)
+					}
 				</div>
-				<button type={loading ? "button" : "submit"} className={`myBtn ml-[10rem] mt-8 ${loading && "cursor-disabled"}`}> {loading ? "Please Wait" : "Submit Application"} </button>
 			</Form>
 		) }
 		</Formik>	

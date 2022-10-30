@@ -10,6 +10,7 @@ import { UserObjectContext } from "../context/user"
 import { AnimatePresence, motion } from "framer-motion"
 import Status from "../lib/Status"
 import Update from "../lib/Update"
+import { toast, ToastContainer } from "react-toastify";
 
 export const Landing = () => {
 
@@ -20,11 +21,13 @@ export const Landing = () => {
 	useEffect(() => {
 		if(userObject?.done) {
 			setModal(false)
+			window.location.reload()
 		}
 	}, [userObject])
 
 	return (
 		<div className='bg-blue-100 w-full h-full flex flex-col lg:block items-center'>
+			<ToastContainer />
 			<Container maxWidth={"lg"} className='my-0 h-auto w-full'> 
 				<div className="w-full mx-auto md:w-2/3 lg:w-full flex flex-col lg:block items-center justify-center">
 

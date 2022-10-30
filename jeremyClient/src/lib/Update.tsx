@@ -13,7 +13,7 @@ export default function Update () {
   const handleSubmit = () => {
     if ( err ) return
     else {
-      if(!userObject.statusUpdate.length) {
+      if(!userObject.statusUpdate) {
         userObject.statusUpdate = []
       }
       axios.put( `https://stepup-laptopapp.herokuapp.com/api/users/${ userObject.id }`, {
@@ -23,7 +23,7 @@ export default function Update () {
           content: para
         }]
       } ).then( () => {
-        setUserObject((prev) => ({...prev, lastUpdate: Date.now()}))
+        setUserObject((prev) => ({...prev, lastUpdate: Date.now(), done: true}))
       })
     }
   }

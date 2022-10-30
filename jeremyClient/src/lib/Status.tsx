@@ -16,7 +16,7 @@ const componentMap = [
         subHeading: 'Your application has been rejected.'
     },
     {
-        status: 'Accepted',
+        status: 'Approved',
         heading: 'Laptop Accepted',
         subHeading: 'Your application has been accepted.'
     }
@@ -29,7 +29,7 @@ export default function Status () {
     const handleSubmit = () => {
         axios.put(`https://stepup-laptopapp.herokuapp.com/api/users/${userObject.id}`, {
             LaptopReceivedByStudent: true
-        }).then(() => setUserObject((prev) => ({ ...prev, LaptopReceivedByStudent: true })))
+        }).then(() => setUserObject((prev) => ({ ...prev, LaptopReceivedByStudent: true, done: true })))
     }
 
     return (
@@ -39,7 +39,7 @@ export default function Status () {
             <div className='flex justify-center items-center h-full'>
                 <p className='uppercase text-gray-600 my-4'> { foundStatus.subHeading } </p>
             </div>
-            { userObject.LaptopStatus === 'Accepted' && (
+            { userObject.LaptopStatus === 'Approved' && (
                 <div className='w-full my-4'>
                     <p className='my-4'>
                         Congratulations on getting your laptop. You can now start learning.
