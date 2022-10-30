@@ -26,10 +26,23 @@ export default function Status () {
     const { userObject, setUserObject } = useContext( UserObjectContext )
     const foundStatus = componentMap.find( key => key.status === userObject.LaptopStatus )! 
 
+    const yyyymmdd = (date: Date) => {
+        var mm = date.getMonth() + 1; // getMonth() is zero-based
+        var dd = date.getDate();
+        return [date.getFullYear(),
+          (mm>9 ? '' : '0') + mm,
+          (dd>9 ? '' : '0') + dd
+            ].join('-');
+        };
+
+
+
     const handleSubmit = () => {
-        axios.put(`https://stepup-laptopapp.herokuapp.com/api/users/${userObject.id}`, {
-            LaptopReceivedByStudent: true
-        }).then(() => setUserObject((prev) => ({ ...prev, LaptopReceivedByStudent: true, done: true })))
+        let obj = {
+            LaptopReceivedByStudent : true,
+            LaptopdateReceived: yyyymmdd(new Date)
+        }
+        axios.put(`https://stepup-laptopapp.herokuapp.com/api/users/${userObject.id}`, obj).then(() => setUserObject((prev) => ({ ...prev, ...obj, done: true })))
     }
 
     return (

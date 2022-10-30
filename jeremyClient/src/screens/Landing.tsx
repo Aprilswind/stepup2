@@ -3,7 +3,7 @@ import "./Landing.css";
 import Container from "../styled components/Container"
 import Divider from "../styled components/Divider"
 import PhoneAuth from "../lib/PhoneAuth"
-import { Box, Button, Modal } from "@mui/material"
+import { Accordion, AccordionDetails, AccordionSummary, AppBar, Box, Button, Modal, Toolbar } from "@mui/material"
 import GradientHead from "../styled components/GradientHead"
 import { Login } from "../lib/Login"
 import { UserObjectContext } from "../context/user"
@@ -11,6 +11,26 @@ import { AnimatePresence, motion } from "framer-motion"
 import Status from "../lib/Status"
 import Update from "../lib/Update"
 import { toast, ToastContainer } from "react-toastify";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+import {faArrowDown} from "@fortawesome/free-solid-svg-icons"
+
+const faqData = [
+	{
+		header: "Who can apply ?",
+		content: "Students with need can apply"
+	},
+	{
+		header: "When should I repay ?",
+		content: "After getting placed in a company"
+	}
+]
+
+const tocData = [
+	"Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
+	"Lorem ipsum dolor sit amet consectetur adipisicing elit. ",
+	"Lorem ipsum dolor sit amet consectetur adipisicing elit. "
+]
 
 export const Landing = () => {
 
@@ -18,27 +38,30 @@ export const Landing = () => {
 	const [modal, setModal] = useState(false)
 	const [next, setNext] = useState(false)
 	
+
 	useEffect(() => {
 		if(userObject?.done) {
 			setModal(false)
-			window.location.reload()
 		}
 	}, [userObject])
 
 	return (
-		<div className='bg-blue-100 w-full h-full flex flex-col lg:block items-center'>
+		<div className='bg-gray-100 w-full h-full flex flex-col lg:block items-center'>
 			<ToastContainer />
 			<Container maxWidth={"lg"} className='my-0 h-auto w-full'> 
 				<div className="w-full mx-auto md:w-2/3 lg:w-full flex flex-col lg:block items-center justify-center">
-
-				<p className='text-center text-3xl uppercase bg-white m-4 mt-12'>
-					gct alumni association laptop applying portal
-				</p> 
-				<p className='text-lg lg:text-left lg:w-1/2 text-center font-italic p-4 my-12 mx-auto lg:mx-4'>
+			<Box sx={{flexGrow: 1}}>
+				<AppBar style={{background: "#1D4ED8"}} position="static">
+					<Toolbar>
+						<p className="text-white italic text-2xl"> GCT Alumni Association </p>
+					</Toolbar>
+				</AppBar>
+			</Box>
+				<p className='text-lg border-b-2 border-slate-700 lg:text-left lg:w-1/2 text-center font-italic p-4 my-12 mx-auto lg:mx-4'>
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam consequuntur accusantium quod, autem voluptatum quaerat facere dolorem optio ipsam a?
 				</p>
 					<div className='flex flex-col lg:h-[1000px] justify-center lg:w-full lg:flex-row items-start'>
-						<div className='m-4 bg-blue-700 h-1/2 flex flex-col justify-around text-white rounded drop-shadow-lg shadow-black p-4 w-[calc(100%-2rem)]'>
+						<div className='mx-4 my-auto bg-blue-700 h-1/2 flex flex-col justify-around text-white rounded drop-shadow-lg shadow-black p-4 w-[calc(100%-2rem)]'>
 							<p className='text-2xl my-4 text-center'>
 								Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, error?
 							</p>
@@ -60,6 +83,15 @@ export const Landing = () => {
 						<p className='mt-12 text-center text-lg lg:w-1/2 font-italic'>
 							Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam consequuntur accusantium quod, autem voluptatum quaerat facere dolorem optio ipsam a?
 						</p>
+					<Divider />
+					<div className="m-4">
+						<p className="text-4xl uppercase text-slate-700 font-extrabold"> Terms & Conditions </p>
+						{ tocData.map((text, i) => (
+							<p className="m-4 text-lg"> 
+								{"-> " + text}
+							</p>
+						)) }	
+					</div>
 					<Divider />
 					<div className='flex flex-col justify-evenly lg:flex-row items-center my-12 w-full'>
 						{ [ {
@@ -88,8 +120,28 @@ export const Landing = () => {
 							)
 						})}
 					</div>
-					<Divider />
  				</div>
+				<Divider />
+				<div>
+					<p className="text-4xl font-extrabold text-slate-700 m-4">
+						FAQ
+					</p>		
+					{faqData.map(({header, content}, i) => {
+						return (
+							<Accordion id={String(i)} className="my-8 mx-4">
+								<AccordionSummary style={{background: "#1D4ED8"}} expandIcon={
+									<FontAwesomeIcon className="text-xl text-white" icon={faArrowDown}/>
+								}>
+									<p className="p-4 text-xl text-white font-light"> {header} </p>
+								</AccordionSummary>
+								<AccordionDetails>
+									<p className="p-4"> {content} </p>
+								</AccordionDetails>
+							</Accordion>
+						) 
+					})}
+				</div>
+				<Divider />
 			</Container>
 			<Modal
 				open={modal}

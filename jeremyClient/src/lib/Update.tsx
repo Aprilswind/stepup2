@@ -23,7 +23,13 @@ export default function Update () {
           content: para
         }]
       } ).then( () => {
-        setUserObject((prev) => ({...prev, lastUpdate: Date.now(), done: true}))
+        setUserObject((prev) => ({...prev, lastUpdate: Date.now(), done: true, statusUpdate: [
+          ...userObject.statusUpdate,
+          {
+            date: yyyymmdd(new Date),
+            content: para
+          }
+        ]}))
       })
     }
   }
@@ -44,7 +50,7 @@ export default function Update () {
   return [date.getFullYear(),
           (mm>9 ? '' : '0') + mm,
           (dd>9 ? '' : '0') + dd
-         ].join('');
+         ].join('-');
 };
 
   return (

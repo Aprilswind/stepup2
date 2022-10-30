@@ -284,7 +284,7 @@ const Lvl3 = ({ steplvl, setSteplvl, handleChange}: {handleForm: any, handleChan
 							toast.success( 'Your requested has been submitted sucessfully' )
 							console.log( resp )
 							setLoading(false)
-							setUserObject({...userObject, done: true})
+							setUserObject({...userObject, done: true, laptopStatus: "pending"})
 						} ).catch( err => {
 							toast.error( err.message )
 							console.log( err, err.message, JSON.stringify( err, null, 20 ) )
