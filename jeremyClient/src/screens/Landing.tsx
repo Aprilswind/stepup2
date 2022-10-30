@@ -50,7 +50,7 @@ export const Landing = () => {
 			<ToastContainer />
 			<Container maxWidth={"lg"} className='my-0 h-auto w-full'> 
 				<div className="w-full mx-auto md:w-2/3 lg:w-full flex flex-col lg:block items-center justify-center">
-			<Box sx={{flexGrow: 1}}>
+			<Box className="w-full" sx={{flexGrow: 1}}>
 				<AppBar style={{background: "#1D4ED8"}} position="static">
 					<Toolbar>
 						<p className="text-white italic text-2xl"> GCT Alumni Association </p>
@@ -61,7 +61,7 @@ export const Landing = () => {
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam consequuntur accusantium quod, autem voluptatum quaerat facere dolorem optio ipsam a?
 				</p>
 					<div className='flex flex-col lg:h-[1000px] justify-center lg:w-full lg:flex-row items-start'>
-						<div className='mx-4 my-auto bg-blue-700 h-1/2 flex flex-col justify-around text-white rounded drop-shadow-lg shadow-black p-4 w-[calc(100%-2rem)]'>
+						<div className='lg:mx-4 my-auto bg-blue-700 h-1/2 flex flex-col justify-around text-white rounded drop-shadow-lg shadow-black p-4 w-[calc(100%-0rem] lg:w-[calc(100%-2rem)]'>
 							<p className='text-2xl my-4 text-center'>
 								Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, error?
 							</p>
@@ -71,7 +71,7 @@ export const Landing = () => {
 						</div>
 						<div className='w-full h-1/2 lg:h-full'>
 							<div className="w-full h-1/2 flex justify-center item-center">
-								<p className='text-right m-auto p-4 text-3xl md:text-4xl lg:text-6xl font-extra-bold text-gray-500'>
+								<p className='text-right mt-12 lg:m-auto p-4 text-3xl md:text-4xl lg:text-6xl font-extra-bold text-gray-500'>
 									Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et, dolor!
 								</p>
 							</div>
@@ -93,7 +93,7 @@ export const Landing = () => {
 						)) }	
 					</div>
 					<Divider />
-					<div className='flex flex-col justify-evenly lg:flex-row items-center my-12 w-full'>
+					<div className='flex flex-col justify-evenly lg:flex-row items-center my-4 w-full'>
 						{ [ {
 							heading: 'Received laptop ?',
 							subHeading: 'Update your scholastic progrss',
