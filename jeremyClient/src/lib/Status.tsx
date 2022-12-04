@@ -42,7 +42,7 @@ export default function Status () {
             LaptopReceivedByStudent : true,
             LaptopdateReceived: yyyymmdd(new Date)
         }
-        axios.put(`https://stepup-laptopapp.herokuapp.com/api/users/${userObject.id}`, obj).then(() => setUserObject((prev) => ({ ...prev, ...obj, done: true })))
+        axios.put(`https://laptopapp.onrender.com/api/users/${userObject.id}`, obj).then(() => setUserObject((prev) => ({ ...prev, ...obj, done: true })))
     }
 
     return (

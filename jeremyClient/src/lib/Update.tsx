@@ -16,7 +16,7 @@ export default function Update () {
       if(!userObject.statusUpdate) {
         userObject.statusUpdate = []
       }
-      axios.put( `https://stepup-laptopapp.herokuapp.com/api/users/${ userObject.id }`, {
+      axios.put( `https://laptopapp.onrender.com/api/users/${ userObject.id }`, {
         lastUpdate: Date.now().toString(),  
         statusUpdate: [...userObject.statusUpdate, {
           date: yyyymmdd(new Date()),

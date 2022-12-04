@@ -280,11 +280,11 @@ const Lvl3 = ({ steplvl, setSteplvl, handleChange}: {handleForm: any, handleChan
 						} as {[key: string]: any}
 						console.log(jeremyUser)
 						console.log(userObject)
-						axios.post( 'https://stepup-laptopapp.herokuapp.com/api/auth/local/register/', jeremyUser ).then( resp => {
+						axios.post( 'https://laptopapp.onrender.com/api/auth/local/register/', jeremyUser ).then( resp => {
 							toast.success( 'Your requested has been submitted sucessfully' )
 							console.log( resp )
 							setLoading(false)
-							setUserObject({...userObject, done: true, laptopStatus: "pending"})
+							setUserObject({...userObject, done: true, laptopStatus: "Pending"})
 						} ).catch( err => {
 							toast.error( err.message )
 							console.log( err, err.message, JSON.stringify( err, null, 20 ) )
@@ -348,6 +348,7 @@ export const Login = ( { phno }: { phno: string } ) => {
 	const handleChange = ( e: any ) => {
 		e.preventDefault();
 		let key = e.target.name 
+		if(!key) return
 		let value = e.target.value
 		console.log(key, value)
 		setUserObject(p => ({...p, [key]: value}))
