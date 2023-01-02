@@ -249,10 +249,41 @@ const Lvl2 = ({handleForm, handleChange, userObject, steplvl, setSteplvl}: {hand
 const Lvl3 = ({ steplvl, setSteplvl, handleChange}: {handleForm: any, handleChange: any, userObject: any, steplvl: any, setSteplvl: any}) => {
 	const [loading, setLoading] = useState(false)
 	const {userObject, setUserObject} = useContext(UserObjectContext)
+	const [firebaseUrls, setFirebaseUrls] = useState<any>({})
+	useEffect(() => {
+		if(Object.keys(firebaseUrls).length === 3) {
+			let jeremyUser = {
+				...userObject,
+				Report_10th: firebaseUrls["10th_Marksheet"],
+				Report_12th: firebaseUrls["12th_Marksheet"],
+				imgsrc: firebaseUrls[ "Passport_size_image" ],
+				RollNo: parseInt( userObject.RollNo ),
+				batch: parseInt( userObject.batch ),
+				phno: parseInt(userObject.phNo.slice(3)),
+				username: userObject.name,
+				password: Math.random().toString(),
+				CollegeEssay: userObject.collegeEssay
+			} as any
+			handlePost(jeremyUser)
+		}
+	}, [firebaseUrls])
+	const handlePost = (jeremyUser: any) => {
+		axios.post( 'https://laptopapp.onrender.com/api/auth/local/register/', jeremyUser ).then( resp => {
+		toast.success( 'Your requested has been submitted sucessfully' )
+		console.log( resp )
+		setLoading(false)
+		setUserObject({...userObject, done: true, laptopStatus: "Pending"})
+	} ).catch( err => {
+			console.log(err.response.data.error.detail)
+			toast.error( err.message )
+			console.log( err, err.message, JSON.stringify( err, null, 20 ) )
+			setUserObject({...userObject, done: false})
+			setLoading(false)
+		})
+	}
 	const handleSubmit = () => {
 		setLoading(true)
 		const fileKeys = Object.keys(userObject).filter( key => uploadsTitles.includes(key) )
-
 		const files = fileKeys.map( key => userObject[key] )
 		console.log(files[0].webkitRelativePath)
 		console.log(fileKeys, files)	
@@ -265,39 +296,12 @@ const Lvl3 = ({ steplvl, setSteplvl, handleChange}: {handleForm: any, handleChan
 			async () => {
 				getDownloadURL( storageRef ).then( ( url ) => {
 					userObject[key] = url
-					if ( i === fileKeys.length - 1 ) {
-						let jeremyUser = {
-							...userObject,
-							Report_10th: userObject["10th_Marksheet"],
-							Report_12th: userObject["12th_Marksheet"],
-							imgsrc: userObject[ "Passport_size_image" ],
-							RollNo: parseInt( userObject.RollNo ),
-							batch: parseInt( userObject.batch ),
-							phno: parseInt(userObject.phNo.slice(3)),
-							username: userObject.name,
-							password: Math.random().toString(),
-							CollegeEssay: userObject.collegeEssay
-						} as {[key: string]: any}
-						console.log(jeremyUser)
-						console.log(userObject)
-						axios.post( 'https://laptopapp.onrender.com/api/auth/local/register/', jeremyUser ).then( resp => {
-							toast.success( 'Your requested has been submitted sucessfully' )
-							console.log( resp )
-							setLoading(false)
-							setUserObject({...userObject, done: true, laptopStatus: "Pending"})
-						} ).catch( err => {
-							toast.error( err.message )
-							console.log( err, err.message, JSON.stringify( err, null, 20 ) )
-							setUserObject({...userObject, done: true})
-							setLoading(false)
-						})
-					}
+					// fuck you react
+					setFirebaseUrls( (prevState: any) => ({...prevState, [key]: url}) )
 				} )
 			} )
 		})
 	}
-
-
 	return <Wrapper>
 		<p className='m-0 mb-8 text-4xl font-extrabold text-slate-700'> { steps[steplvl].title } </p>
 		<Formik

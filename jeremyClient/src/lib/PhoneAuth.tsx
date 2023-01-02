@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Button, TextField } from '@mui/material'
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth"
 import axios from 'axios'
+import { FirebaseError } from 'firebase/app'
 
 const OTPInput = require("otp-input-react")
 
@@ -16,25 +17,16 @@ const PhoneAuth = ( { done, updateData }: { done: any, updateData: any } ) => {
 
 	// Sent OTP
 	const signin = () => {
-
-		if ( mynumber === "" || mynumber.length < 13 ) {
-			toast.error( "Please enter valid phone number" )
-		}
-
 		const auth = getAuth()
-
 		const appVerifier = new RecaptchaVerifier( 'recaptcha-container', {}, auth )
-
 		signInWithPhoneNumber( auth, mynumber, appVerifier )
 			.then( ( confirmationResult ) => {
 				setshow( true )
 				setFinal( confirmationResult )
-			} ).catch( ( error ) => {
-				toast.error( error.message )
+			} ).catch( ( error: FirebaseError ) => {
+				toast.error( error.code === "auth/invalid-phone-number" ? "Invalid phone number or phone number format" : error.code)
 			} )
 	}
-
-	// Validate OTP
 	const ValidateOtp = () => {
 		if ( otp === null || final === null ) {
 			alert( 'No' )
@@ -46,18 +38,20 @@ const PhoneAuth = ( { done, updateData }: { done: any, updateData: any } ) => {
 				if ( resp.data.length ) {
 					console.log(resp.data[0])
 					updateData( {
-						...resp.data[ 0 ]
+						...resp.data[ 0 ],
+						authenticated: true
 					} )
 				}
 				else {
 					updateData( ( prev: any ) => ( {
 						...prev,
-						phNo: mynumber
+						phNo: mynumber,
+						authenticated: true
 					} ) )
 				}
 				done()
 			} )
-		} ).catch( ( err: any ) => toast.error( err.message ) )
+		} ).catch( ( err: any ) => toast.error( err.code ) )
 		console.log( otp, final )
 	}
 
