@@ -76,9 +76,8 @@ const destructure = ( object1: any, object2: any ): { [key: string]: string } =>
 		[ key: string ]: string
 	}
 }
-
-const uploadsTitles = Array.from([ 'Passport size image', '10th Marksheet', '12th Marksheet' ]).map( t => t.replace(/ /g, '_') )
-
+const uploadTitlesLabels = Array.from(['Passport size image', '10th Marksheet', '12th Marksheet', 'Other Documents'])
+const uploadsTitles = uploadTitlesLabels.map( t => t.replace(/ /g, '_') )
 
 const Upload = ( { text }: { text: string } ) => {
 	const { userObject, setUserObject } = useContext( UserObjectContext )
@@ -231,9 +230,9 @@ const Lvl2 = ({handleForm, handleChange, userObject, steplvl, setSteplvl}: {hand
 									<div className="err">{ errors.Marks_12th as string }</div> : null }
 						</div>
 					</div>
-					<div className='flex flex-col lg:flex-row justify-between items-center my-4 py-4 w-full h-full'>
-						{ uploadsTitles.map( text => {
-							return ( <div className='w-full md:w-1/2 lg:w-[30%] h-full'>
+					<div className='flex justify-center items-center md:grid grid-cols-2 grid-rows-2 justify-between items-center my-4 py-4 w-full h-full gap-4'>
+						{ uploadTitlesLabels.map( text => {
+							return ( <div className='w-full h-full'>
 								<Upload text={text}/>
 							</div>)
 						})}
@@ -251,12 +250,13 @@ const Lvl3 = ({ steplvl, setSteplvl, handleChange}: {handleForm: any, handleChan
 	const {userObject, setUserObject} = useContext(UserObjectContext)
 	const [firebaseUrls, setFirebaseUrls] = useState<any>({})
 	useEffect(() => {
-		if(Object.keys(firebaseUrls).length === 3) {
+		if(Object.keys(firebaseUrls).length === 4) {
 			let jeremyUser = {
 				...userObject,
 				Report_10th: firebaseUrls["10th_Marksheet"],
 				Report_12th: firebaseUrls["12th_Marksheet"],
 				imgsrc: firebaseUrls[ "Passport_size_image" ],
+				otherDocument: firebaseUrls["Other_Documents"],
 				RollNo: parseInt( userObject.RollNo ),
 				batch: parseInt( userObject.batch ),
 				phno: parseInt(userObject.phNo.slice(3)),
@@ -272,7 +272,7 @@ const Lvl3 = ({ steplvl, setSteplvl, handleChange}: {handleForm: any, handleChan
 		toast.success( 'Your requested has been submitted sucessfully' )
 		console.log( resp )
 		setLoading(false)
-		setUserObject({...userObject, done: true, laptopStatus: "Pending"})
+		setUserObject({...userObject, done: true, LaptopStatus: "Pending"})
 	} ).catch( err => {
 			console.log(err.response.data.error.detail)
 			toast.error( err.message )

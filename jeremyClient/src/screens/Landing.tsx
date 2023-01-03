@@ -108,7 +108,7 @@ export const Landing = () => {
 								subHeading: 'Apply for a laptop with an application form',
 								text: 'Apply'
 							}
-						].map( arr => {
+						].reverse().map( arr => {
 							return (
 								<div className='flex m-4 flex-col justify-center items-center w-full'>
 										<p className='text-center text-xl font-bold'> {arr.heading} </p>
@@ -178,7 +178,7 @@ export const Landing = () => {
 												{
 													userObject.LaptopReceivedByStudent
 														? ( <Update /> )
-														: userObject.LaptopStatus? 
+														: userObject.LaptopStatus ? 
 															( <Status /> )
 															:  <Login phno={ userObject.phNo } />
 												}
