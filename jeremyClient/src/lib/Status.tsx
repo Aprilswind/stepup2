@@ -54,6 +54,7 @@ export default function Status () {
                     LaptopReceivedByStudent : true,
                     LaptopdateReceived: yyyymmdd(new Date),
                     recipt: url,
+                    lastUpdate: Date.now()
                 }
                 axios.put(`https://laptopapp.onrender.com/api/users/${userObject.id}`, obj).then(() => setUserObject((prev) => ({ ...prev, ...obj, done: true }))).catch(e => toast.error(e.data.error.message))
 			        } )

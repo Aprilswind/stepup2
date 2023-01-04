@@ -262,7 +262,7 @@ const Lvl3 = ({ steplvl, setSteplvl, handleChange}: {handleForm: any, handleChan
 				phno: parseInt(userObject.phNo.slice(3)),
 				username: userObject.name,
 				password: Math.random().toString(),
-				CollegeEssay: userObject.collegeEssay
+				CollegeEssay: userObject.collegeEssay,
 			} as any
 			handlePost(jeremyUser)
 		}
